@@ -20,12 +20,18 @@ jobs:
           fetch-depth: 0
           ref: release
 
-      - name: Show current branch info
+      - name: Debug:Show current branch
         run: |
-          echo "On branch: $(git branch --show-current)"
+          echo "✅ Current Branch: $(git branch --show-current)"
+          echo "✅ Git Remote:"
+          git remote -v
+          echo "✅ Last 5 commits:"
           git log --oneline -n 5
+          echo "✅ Diff with main:"
+          git fetch origin main
+          git diff origin/main..HEAD
 
-      - name: Create PR from release → main
+      - name: Create PR from release to main
         uses: repo-sync/pull-request@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,5 +39,5 @@ jobs:
           destination_branch: main
           pr_title: "🔄 Auto PR: Sync release → main"
           pr_body: |
-            This PR was automatically created by GitHub Actions when a commit was pushed to the `release` branch.
+            This PR was automatically created by GitHub Actions on push to `release`.
           pr_draft: false
