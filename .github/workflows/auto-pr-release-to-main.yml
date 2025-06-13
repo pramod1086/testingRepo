@@ -23,7 +23,7 @@ jobs:
       - name: Create PR from release → main
         uses: repo-sync/pull-request@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
           source_branch: release
           destination_branch: main
           pr_title: "🔄 Auto PR: Sync release → main"
